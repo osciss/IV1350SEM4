@@ -13,6 +13,18 @@ public class RepairOrder {
     private List<String> repairTasks = new ArrayList<>();
     private List<String> diagnosticResults = new ArrayList<>();
 
+    /**
+     * 
+     */
+    public String toString(){
+        return "Repair Order ID: " + orderID + "\n"
+         + "Date: " + date + "\n"
+         + "Problem: " + problemDescr + "\n"
+         + "State: " + state + "\n"
+         + "Repair Tasks: " + repairTasks + "\n"
+         + "Diagnostic Results: " + diagnosticResults;
+    }
+    
     // Constructor
     public RepairOrder(int orderID, String problemDescr) {
         this.orderID = orderID;
@@ -44,7 +56,7 @@ public class RepairOrder {
     public String getState() {
         return state;
     }
-    
+
     public LocalDate getDate() {
         return date;
     }
