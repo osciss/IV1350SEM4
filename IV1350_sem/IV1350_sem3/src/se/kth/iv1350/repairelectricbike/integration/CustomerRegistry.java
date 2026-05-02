@@ -9,11 +9,9 @@ public class CustomerRegistry {
     // Initializes the customer registry with some sample customers.
     public CustomerRegistry(){
         customers = new ArrayList<>();
-        customers.add(new Customer("Alice", "alice@example.com", "0701234567", "Trek", "SN123456", "Fuel EX"));
-        customers.add(new Customer("Bob", "bob@example.com", "0707654321", "Giant", "SN789012", "Trance 2"));
-        customers.add(new Customer("Oscar", "oscar@example.com", "0709876543", "Cannondale", "SN345678", "Superior Pro"));
-        customers.add(new Customer("Aleena", "aleena@example.com", "0705555555", "Specialized", "SN987654", "Turbo Vado"));
-        customers.add(new Customer("Emilia", "emilia@example.com", "0701111111", "Trek", "SN234567", "Fuel EX"));
+        customers.add(new Customer("Oscar", "oscar@kth.com", "01234", "Cannondale", "SN345678", "Superior Pro"));
+        customers.add(new Customer("Aleena", "aleena@kth.com", "05678", "Specialized", "SN987654", "Turbo Vado"));
+        customers.add(new Customer("Emilia", "emilia@kth.com", "091011", "Trek", "SN234567", "Fuel EX"));
     }
     /**
      * Finds a customer by phone number.
