@@ -1,7 +1,5 @@
 package se.kth.iv1350.repairelectricbike.model;
 
-package se.kth.iv1350.repairelectricbike.model;
-
 /**
  * Represents a bike.
  */
