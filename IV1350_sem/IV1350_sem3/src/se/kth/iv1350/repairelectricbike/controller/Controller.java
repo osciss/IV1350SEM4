@@ -41,13 +41,8 @@ public class Controller {
      * @param phoneNumber
      * @return CustomerDTO with customer information, or null if customer is not found
      */
-    public CustomerDTO findCustomer(String phoneNumber){
-        //Hämtar customer objektet från registry och omvandlar till DTO
-        CustomerDTO customer = customerRegistry.findCustomer(phoneNumber);
-        if (customer == null) {
-            return null; 
-        }
-        return customer;   // Returnerar endast namn i DTO, övriga fält sätts till null, //Customerreggistry lagrar customerDTOS!
+    public CustomerDTO findCustomer(String phoneNumber) {
+        return customerRegistry.findCustomer(phoneNumber);
     }
 
     /**

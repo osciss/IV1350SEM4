@@ -1,3 +1,4 @@
+package se.kth.iv1350.repairelectricbike.model;
 import java.util.Date;
 
 public class DiagnosticReport {
