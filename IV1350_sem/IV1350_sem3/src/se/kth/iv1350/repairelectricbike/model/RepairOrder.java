@@ -8,6 +8,7 @@ import java.util.List;
  * Represents a repair order in the system.
  */
 public class RepairOrder {
+
     private int orderID;
     private LocalDate date;
     private String problemDescr;
@@ -22,22 +23,25 @@ public class RepairOrder {
      * @param orderID The ID of the repair order.
      * @param problemDescr The problem description.
      */
-    public String toString(){
-        return "Repair Order ID: " + orderID + "\n"
-         + "Date: " + date + "\n"
-         + "Problem: " + problemDescr + "\n"
-         + "State: " + state + "\n"
-         + "Repair Tasks: " + repairTasks + "\n"
-         + "Diagnostic Results: " + diagnosticResults;
-    }
-    
-    // Constructor
-
     public RepairOrder(int orderID, String problemDescr) {
         this.orderID = orderID;
         this.date = LocalDate.now();
         this.problemDescr = problemDescr;
         this.state = "NEWLY CREATED";
+    }
+
+    /**
+     * Returns a string representation of the repair order.
+     *
+     * @return A formatted string with repair order details.
+     */
+    public String toString() {
+        return "Repair Order ID: " + orderID + "\n"
+                + "Date: " + date + "\n"
+                + "Problem: " + problemDescr + "\n"
+                + "State: " + state + "\n"
+                + "Repair Tasks: " + repairTasks + "\n"
+                + "Diagnostic Results: " + diagnosticResults;
     }
 
     /**
@@ -88,11 +92,10 @@ public class RepairOrder {
     public String getState() {
         return state;
     }
-    
+
     /**
      * @return The date when the order was created.
      */
-
     public LocalDate getDate() {
         return date;
     }
