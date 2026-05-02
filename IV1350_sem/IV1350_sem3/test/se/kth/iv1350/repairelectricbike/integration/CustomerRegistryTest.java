@@ -53,5 +53,15 @@ public class CustomerRegistryTest {
                 "findCustomer should return null when the phone number is not registered.");
     }
 
-    
+    private void assertCustomer(CustomerDTO customer, String name, String email,
+            String phone, String bikeBrand, String bikeSerialNo, String bikeModel) {
+        assertNotNull(customer, "Customer should not be null.");
+        assertAll(
+                () -> assertEquals(name, customer.getName(), "Name should match."),
+                () -> assertEquals(email, customer.getEmail(), "Email should match."),
+                () -> assertEquals(phone, customer.getPhoneNumber(), "Phone should match."),
+                () -> assertEquals(bikeBrand, customer.getBikeBrand(), "Bike brand should match."),
+                () -> assertEquals(bikeSerialNo, customer.getBikeSerialNo(), "Serial number should match."),
+                () -> assertEquals(bikeModel, customer.getBikeModel(), "Bike model should match."));
+    }
 }
