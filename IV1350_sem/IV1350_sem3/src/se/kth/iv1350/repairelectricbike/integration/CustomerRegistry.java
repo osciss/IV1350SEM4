@@ -1,20 +1,28 @@
 package se.kth.iv1350.repairelectricbike.integration;
 import java.util.ArrayList;
 import se.kth.iv1350.repairelectricbike.model.Customer;
+import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 
 public class CustomerRegistry {
-    private ArrayList<Customer> customers;
+    private ArrayList<CustomerDTO> customers;
     // Constructor for the CustomerRegistry class.
     // Initializes the customer registry with some sample customers.
     public CustomerRegistry(){
         customers = new ArrayList<>();
-        customers.add(new Customer(1, "Oscar", "0701234567"));
-        customers.add(new Customer(2, "Aleena", "0707654321"));
-        customers.add(new Customer(3, "Emilia", "0709876543"));
+        customers.add(new CustomerDTO("Alice", "alice@example.com", "0701234567", "Trek", "SN123456", "Fuel EX"));
+        customers.add(new CustomerDTO("Bob", "bob@example.com", "0707654321", "Giant", "SN789012", "Trance 2"));
+        customers.add(new CustomerDTO("Oscar", "oscar@example.com", "0709876543", "Cannondale", "SN345678", "Superior Pro"));
+        customers.add(new CustomerDTO("Aleena", "aleena@example.com", "0705555555", "Specialized", "SN987654", "Turbo Vado"));
+        customers.add(new CustomerDTO("Emilia", "emilia@example.com", "0701111111", "Trek", "SN234567", "Fuel EX"));
     }
-    // Method to find a customer by their phone number.
-    public Customer findCustomer(String phoneNumber){
-        for (Customer customer : customers) {
+    /**
+     * Finds a customer by phone number.
+     *
+     * @param phoneNumber The customer's phone number.
+     * @return The matching customer, or null if none found.
+     */
+    public CustomerDTO findCustomer(String phoneNumber){
+        for (CustomerDTO customer : customers) {
             if (customer.getPhoneNumber().equals(phoneNumber)) {
                 return customer;
             }
