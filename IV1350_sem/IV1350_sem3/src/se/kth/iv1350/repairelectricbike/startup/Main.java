@@ -6,12 +6,14 @@ import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.view.View;
 
 /**
- * Starts the application.
+ * Starts the system.
  */
 public class Main {
 
     /**
-     * Entry point of the program.
+     * Starts the application.
+     *
+     * @param args Not used.
      */
     public static void main(String[] args) {
 

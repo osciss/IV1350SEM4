@@ -28,21 +28,46 @@ public class CustomerDTO {
         this.bikeModel = bikeModel;
         this.phoneNumber = phoneNumber;
     }
+
+    /**
+     * @return The customer's name.
+     */
     public String getName() {
         return name;
-    }   
+    }  
+    
+    /**
+     * @return The customer's email.
+     */
+
     public String getEmail() {
         return email;
     }
+
+    /**
+     * @return The customer's phone number.
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    /**
+     * @return The bike brand.
+     */
     public String getBikeBrand() {
         return bikeBrand;
     }
+
+    /**
+     * @return The bike serial number.
+     */
     public String getBikeSerialNo() {
         return bikeSerialNo;
     }
+
+    /**
+     * @return The bike model.
+     */
     public String getBikeModel() {
         return bikeModel;
     }

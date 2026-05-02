@@ -6,31 +6,32 @@ import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-//Ännu en gång, @params och @returns kommentarer behövs i alla publika metoder teehee
 /**
- * Simulates storage of repair orders.
+ * Stores repair orders in the system.
  */
 public class RepairOrderRegistry {
 
     private List<RepairOrder> repairOrders = new ArrayList<>();
 
-    /** 
-     * Creates a new instance of RepairOrderRegistry.
+    /**
+     * Creates a repair order registry.
      */
     public RepairOrderRegistry() {
     }
 
     /**
-     * Stores a repair order.
-     * @param repairOrder
+     * Adds a new repair order.
+     *
+     * @param repairOrder The repair order to add.
      */
     public void createRepairOrder(RepairOrder repairOrder) {
         repairOrders.add(repairOrder);
     }
 
     /**
-     * Updates a repair order.
-     * @param repairOrder
+     * Updates an existing repair order.
+     *
+     * @param repairOrder The repair order to update.
      */
     public void updateRepairOrder(RepairOrder repairOrder) {
         for (int i = 0; i < repairOrders.size(); i++) {
@@ -42,9 +43,10 @@ public class RepairOrderRegistry {
     }
 
     /**
-     * Finds a repair order by its ID.
-     * @param id
-     * @return
+     * Finds a repair order by ID.
+     *
+     * @param id The repair order ID.
+     * @return The repair order, or null if not found.
      */
     public RepairOrder findRepairOrder(int id){
         for(RepairOrder order : repairOrders){
