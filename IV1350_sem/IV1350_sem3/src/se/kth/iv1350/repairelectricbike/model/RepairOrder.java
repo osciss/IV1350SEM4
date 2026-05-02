@@ -17,11 +17,26 @@ public class RepairOrder {
     private List<String> diagnosticResults = new ArrayList<>();
 
     /**
+<<<<<<< HEAD
      * Creates a new repair order.
      *
      * @param orderID The ID of the repair order.
      * @param problemDescr The problem description.
      */
+=======
+     * 
+     */
+    public String toString(){
+        return "Repair Order ID: " + orderID + "\n"
+         + "Date: " + date + "\n"
+         + "Problem: " + problemDescr + "\n"
+         + "State: " + state + "\n"
+         + "Repair Tasks: " + repairTasks + "\n"
+         + "Diagnostic Results: " + diagnosticResults;
+    }
+    
+    // Constructor
+>>>>>>> 74990360f593ec19699a2a5b546a04195dfeee9c
     public RepairOrder(int orderID, String problemDescr) {
         this.orderID = orderID;
         this.date = LocalDate.now();
@@ -77,10 +92,14 @@ public class RepairOrder {
     public String getState() {
         return state;
     }
+<<<<<<< HEAD
     
     /**
      * @return The date when the order was created.
      */
+=======
+
+>>>>>>> 74990360f593ec19699a2a5b546a04195dfeee9c
     public LocalDate getDate() {
         return date;
     }
