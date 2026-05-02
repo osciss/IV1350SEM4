@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
-import se.kth.iv1350.repairelectricbike.dto.RepairOrderDTO;
+import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
 
 import java.util.ArrayList;
 import java.util.List;
