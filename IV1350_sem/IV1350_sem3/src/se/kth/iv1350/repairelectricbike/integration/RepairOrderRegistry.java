@@ -65,7 +65,7 @@ public class RepairOrderRegistry {
         for (RepairOrder order : repairOrders) {
             result.add(new RepairOrderDTO(
                     order.getId(),
-                    order.getDate(), //date saknas i RepairOrder, behöver läggas till
+                    order.getDate(),
                     order.getProblemDesc(),
                     order.getState()
             ));
