@@ -43,11 +43,11 @@ public class Controller {
      */
     public CustomerDTO findCustomer(String phoneNumber){
         //Hämtar customer objektet från registry och omvandlar till DTO
-        Customer customer = customerRegistry.findCustomer(phoneNumber);
+        CustomerDTO customer = customerRegistry.findCustomer(phoneNumber);
         if (customer == null) {
             return null; 
         }
-        return new CustomerDTO(customer.getName(), null, null, null);   // Returnerar endast namn i DTO, övriga fält sätts till null
+        return customer;   // Returnerar endast namn i DTO, övriga fält sätts till null, //Customerreggistry lagrar customerDTOS!
     }
 
     /**
