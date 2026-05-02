@@ -44,4 +44,8 @@ public class RepairOrder {
     public String getState() {
         return state;
     }
+    
+    public LocalDate getDate() {
+        return date;
+    }
 }
