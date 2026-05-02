@@ -22,7 +22,7 @@ public class Main {
         Printer printer = new Printer();
 
         // 3. Create controller
-        Controller controller = new Controller(RegistryCreator, printer);
+        Controller controller = new Controller(registryCreator, printer);
 
         // 4. Create view
         View view = new View(controller);
