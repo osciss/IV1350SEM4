@@ -6,13 +6,24 @@ import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
 
+/**
+ * Represents the user interface.
+ */
 public class View {
     private final Controller controller;
 
+    /**
+     * Creates a new View.
+     *
+     * @param controller Used to communicate with the system.
+     */
     public View(Controller controller){
         this.controller = controller;
     }
 
+    /**
+     * Runs the program.
+     */
     public void run(){
         findCustomerStep();
         createRepairOrderStep();
@@ -22,6 +33,9 @@ public class View {
         acceptRepairOrderStep();
     }
 
+    /**
+     * Finds a customer and prints the result.
+     */
     private void findCustomerStep(){
         System.out.println(" Find customer ");
         CustomerDTO customer = controller.findCustomer("0701234567");
@@ -32,11 +46,17 @@ public class View {
         }
     }
 
+    /**
+     * Creates a repair order.
+     */
     private void createRepairOrderStep(){
         System.out.println(" Create repair order ");
         controller.createRepairOrder("Battery ded", "0701234567", 12345);
         System.out.println("Repair order created.");}
 
+    /**
+     * Gets and prints all repair orders.
+    */
     private void findAllRepairOrdersStep(){
         System.out.println(" Find all repair orders ");
         List<RepairOrderDTO> orders = controller.findAllRepairOrders();
@@ -45,22 +65,28 @@ public class View {
         }
     }
 
+/**
+ * Adds a diagnostic result.
+ */
     private void addDiagnosticResultStep(){
         System.out.println(" Add diagnostic result ");
         controller.addDiagnosticResult(1, "Replace ded battery");
         System.out.println("Diagnostic result added.");
     }
-
+/**
+* Adds a repair task.
+*/
     private void addRepairTaskStep(){
         System.out.println(" Add repair task ");
         controller.addRepairTask(1, "Replace battery");
         System.out.println("Repair task added.");
     }
-
+/**
+* Accepts a repair order.
+*/
     private void acceptRepairOrderStep(){
         System.out.println(" Accept repair order ");
         controller.acceptRepairOrder(1);
         System.out.println("Repair order accepted.");
     }
-    
 }
