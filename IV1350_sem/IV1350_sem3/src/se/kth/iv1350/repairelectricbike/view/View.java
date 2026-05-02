@@ -13,16 +13,26 @@ public class View {
     private final Controller controller;
 
     /**
+<<<<<<< HEAD
      * Creates a new View.
      *
      * @param controller Used to communicate with the system.
+=======
+     * Creates a new view.
+     * @param controller
+>>>>>>> 74990360f593ec19699a2a5b546a04195dfeee9c
      */
     public View(Controller controller){
         this.controller = controller;
     }
 
+<<<<<<< HEAD
     /**
      * Runs the program.
+=======
+    /*
+     * Runs the view.
+>>>>>>> 74990360f593ec19699a2a5b546a04195dfeee9c
      */
     public void run(){
         findCustomerStep();
@@ -37,12 +47,12 @@ public class View {
      * Finds a customer and prints the result.
      */
     private void findCustomerStep(){
-        System.out.println(" Find customer ");
+        System.out.println("1. Find customer ");
         CustomerDTO customer = controller.findCustomer("0701234567");
         if(customer != null){
-            System.out.println("Customer found: " + customer.getName());
+            System.out.println("         Customer found: " + customer.getName());
         } else {
-            System.out.println("Customer not found.");
+            System.out.println("         Customer not found.");
         }
     }
 
@@ -50,18 +60,18 @@ public class View {
      * Creates a repair order.
      */
     private void createRepairOrderStep(){
-        System.out.println(" Create repair order ");
+        System.out.println("2. Create repair order ");
         controller.createRepairOrder("Battery ded", "0701234567", 12345);
-        System.out.println("Repair order created.");}
+        System.out.println("         Repair order created.");}
 
     /**
      * Gets and prints all repair orders.
     */
     private void findAllRepairOrdersStep(){
-        System.out.println(" Find all repair orders ");
+        System.out.println("3. Find all repair orders ");
         List<RepairOrderDTO> orders = controller.findAllRepairOrders();
         for(RepairOrderDTO order : orders){
-            System.out.println("ID: " + order.id + ", Date: " + order.date + ", Problem: " + order.problemDesc + ", State: " + order.state);
+            System.out.println("         ID: " + order.id + ", Date: " + order.date + ", Problem: " + order.problemDesc + ", State: " + order.state);
         }
     }
 
@@ -69,24 +79,24 @@ public class View {
  * Adds a diagnostic result.
  */
     private void addDiagnosticResultStep(){
-        System.out.println(" Add diagnostic result ");
+        System.out.println("4. Add diagnostic result ");
         controller.addDiagnosticResult(1, "Replace ded battery");
-        System.out.println("Diagnostic result added.");
+        System.out.println("         Diagnostic result added.");
     }
 /**
 * Adds a repair task.
 */
     private void addRepairTaskStep(){
-        System.out.println(" Add repair task ");
+        System.out.println("5. Add repair task ");
         controller.addRepairTask(1, "Replace battery");
-        System.out.println("Repair task added.");
+        System.out.println("         Repair task added.");
     }
 /**
 * Accepts a repair order.
 */
     private void acceptRepairOrderStep(){
-        System.out.println(" Accept repair order ");
+        System.out.println("6. Accept repair order \n");
         controller.acceptRepairOrder(1);
-        System.out.println("Repair order accepted.");
+        System.out.println("         Repair order accepted.");
     }
 }
