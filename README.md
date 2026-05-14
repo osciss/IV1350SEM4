@@ -1,5 +1,7 @@
 # IV1350 – Repair Electric Bike
 
+test
+
 Object-Oriented Design, KTH IV1350  
 Seminar 3 – Implementation
 
