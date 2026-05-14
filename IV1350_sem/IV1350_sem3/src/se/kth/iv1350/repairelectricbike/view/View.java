@@ -17,12 +17,14 @@ public class View {
     private final Controller controller;
 
     /**
-     * Creates a new view.
+     * Creates a new view and registers repair order observers with the controller.
      *
      * @param controller Used to communicate with the system.
      */
     public View(Controller controller) {
         this.controller = controller;
+        controller.addRepairOrderObserver(new RepairOrderView());
+        controller.addRepairOrderObserver(new RepairOrderLogger());
     }
 
     /**
@@ -65,7 +67,8 @@ public class View {
         try {
             controller.findCustomer("00000");
         } catch (CustomerNotFoundException ex) {
-            System.out.println("   ERROR: No customer found with phone number " + ex.getPhoneNumber() + ".");
+            System.out.println("   ERROR: No customer found with phone number "
+                    + ex.getPhoneNumber() + ".");
         } catch (CustomerOperationFailedException ex) {
             System.out.println("   ERROR: Could not reach the database. Please try again later.");
         }
@@ -79,7 +82,8 @@ public class View {
         try {
             controller.findCustomer("99999");
         } catch (CustomerNotFoundException ex) {
-            System.out.println("   ERROR: No customer found with phone number " + ex.getPhoneNumber() + ".");
+            System.out.println("   ERROR: No customer found with phone number "
+                    + ex.getPhoneNumber() + ".");
         } catch (CustomerOperationFailedException ex) {
             System.out.println("   ERROR: Could not reach the database. Please try again later.");
         }
@@ -102,10 +106,10 @@ public class View {
         List<RepairOrderDTO> orders = controller.findAllRepairOrders();
         for (RepairOrderDTO order : orders) {
             System.out.println(
-                    "   ID: " + order.id +
-                    ", Date: " + order.date +
-                    ", Problem: " + order.problemDesc +
-                    ", State: " + order.state);
+                    "   ID: " + order.id
+                    + ", Date: " + order.date
+                    + ", Problem: " + order.problemDesc
+                    + ", State: " + order.state);
         }
     }
 

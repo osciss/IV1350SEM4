@@ -8,9 +8,11 @@ import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
 import se.kth.iv1350.repairelectricbike.integration.exception.CustomerNotFoundException;
 import se.kth.iv1350.repairelectricbike.integration.exception.DatabaseFailureException;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
+import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class Controller {
     private final RepairOrderRegistry repairOrderRegistry;
     private final Printer printer;
     private final ErrorLogger errorLogger = new ErrorLogger();
+    private final List<RepairOrderObserver> repairOrderObservers = new ArrayList<>();
 
     private int nextOrderId = 1;
 
@@ -38,6 +41,16 @@ public class Controller {
         this.customerRegistry = registryCreator.getCustomerRegistry();
         this.repairOrderRegistry = registryCreator.getRepairOrderRegistry();
         this.printer = printer;
+    }
+
+    /**
+     * Registers an observer that will be notified whenever a repair order
+     * is updated.
+     *
+     * @param observer The observer to register.
+     */
+    public void addRepairOrderObserver(RepairOrderObserver observer) {
+        repairOrderObservers.add(observer);
     }
 
     /**
@@ -60,7 +73,7 @@ public class Controller {
     }
 
     /**
-     * Creates a new repair order and saves it to the registry.
+     * Creates a new repair order, registers all observers, and saves it to the registry.
      *
      * @param problemDescr A description of the reported problem.
      * @param phoneNumber  The customer's phone number.
@@ -68,6 +81,9 @@ public class Controller {
      */
     public void createRepairOrder(String problemDescr, String phoneNumber, int serialNo) {
         currentRepairOrder = new RepairOrder(nextOrderId++, problemDescr);
+        for (RepairOrderObserver observer : repairOrderObservers) {
+            currentRepairOrder.addObserver(observer);
+        }
         repairOrderRegistry.createRepairOrder(currentRepairOrder);
     }
 
