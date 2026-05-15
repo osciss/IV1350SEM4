@@ -1,5 +1,7 @@
 package se.kth.iv1350.repairelectricbike.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import se.kth.iv1350.repairelectricbike.controller.exception.CustomerOperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.CustomerRegistry;
 import se.kth.iv1350.repairelectricbike.integration.Printer;
@@ -9,11 +11,9 @@ import se.kth.iv1350.repairelectricbike.integration.exception.CustomerNotFoundEx
 import se.kth.iv1350.repairelectricbike.integration.exception.DatabaseFailureException;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
+import se.kth.iv1350.repairelectricbike.model.RepairTask;
 import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The application controller. Receives all calls from the view and
@@ -142,7 +142,8 @@ public class Controller {
      */
     public void addRepairTask(int id, String task) {
         if (currentRepairOrder != null && currentRepairOrder.getId() == id) {
-            currentRepairOrder.addRepairTask(task);
+            RepairTask repairTaskToAdd = new RepairTask("Repair Task", "Description: " + task, 0.0, "NEW");
+            currentRepairOrder.addRepairTask(repairTaskToAdd);
             repairOrderRegistry.updateRepairOrder(currentRepairOrder);
         }
     }

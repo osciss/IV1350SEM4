@@ -26,7 +26,7 @@ public class ControllerTest {
 
     @BeforeEach
     public void setUp() {
-    RepairOrderRegistry.sharedRepairOrders().clearRepairOrders();
+    RepairOrderRegistry.sharedRepairOrders().removeAllRepairOrders();
 
     RegistryCreator creator = new RegistryCreator();
     Printer printer = new Printer();

@@ -15,7 +15,7 @@ public class RepairOrder {
     private String problemDescr;
     private String state;
 
-    private List<String> repairTasks = new ArrayList<>();
+    private List<RepairTask> repairTasks = new ArrayList<>();
     private List<String> diagnosticResults = new ArrayList<>();
     private List<RepairOrderObserver> observers = new ArrayList<>();
 
@@ -68,7 +68,7 @@ public class RepairOrder {
      *
      * @param task The repair task description.
      */
-    public void addRepairTask(String task) {
+    public void addRepairTask(RepairTask task) {
         repairTasks.add(task);
         notifyObservers();
     }

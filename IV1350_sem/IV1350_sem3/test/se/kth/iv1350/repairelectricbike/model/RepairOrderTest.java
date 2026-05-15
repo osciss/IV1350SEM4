@@ -28,7 +28,8 @@ public class RepairOrderTest {
 
     @Test
     void testOnAddRepairTask() {
-        order.addRepairTask("Replace chain");
+        RepairTask repairTask = new RepairTask("Replace chain", "Description: Replace chain", 0.0, "NEW");
+        order.addRepairTask(repairTask);
         assertTrue(order.toString().contains("Replace chain"),
                 "Added repair task should appear in toString output.");
     }

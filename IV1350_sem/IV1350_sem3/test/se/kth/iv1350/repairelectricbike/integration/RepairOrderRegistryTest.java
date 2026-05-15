@@ -18,9 +18,9 @@ public class RepairOrderRegistryTest {
     @BeforeEach
     public void setUp() {
     repairOrderRegistry =
-            RepairOrderRegistry.sharedRepairOrders();
+            repairOrderRegistry.sharedRepairOrders();
 
-    repairOrderRegistry.clearRepairOrders();
+    repairOrderRegistry.removeAllRepairOrders();
 }
 
     @Test
