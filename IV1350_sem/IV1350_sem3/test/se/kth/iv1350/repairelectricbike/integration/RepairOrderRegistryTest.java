@@ -17,8 +17,11 @@ public class RepairOrderRegistryTest {
 
     @BeforeEach
     public void setUp() {
-        repairOrderRegistry = new RepairOrderRegistry();
-    }
+    repairOrderRegistry =
+            RepairOrderRegistry.sharedRepairOrders();
+
+    repairOrderRegistry.clearRepairOrders();
+}
 
     @Test
     public void testFindRepairOrderReturnsNullWhenEmpty() {

@@ -8,15 +8,34 @@ import java.util.List;
 
 /**
  * Stores repair orders in the system.
+ * There is only one shared registry exists during runtime.
  */
 public class RepairOrderRegistry {
+
+    private static final RepairOrderRegistry sharedRepairOrders =
+            new RepairOrderRegistry();
 
     private List<RepairOrder> repairOrders = new ArrayList<>();
 
     /**
-     * Creates a repair order registry.
+     *Creates shared repair order registry.
      */
-    public RepairOrderRegistry() {
+    private RepairOrderRegistry() {
+    }
+    
+    /**
+     * Clears the repair order registry.
+    */
+    public void removeAllRepairOrders() {
+        repairOrders.clear();
+    }
+
+    /**
+     * Returns the shared repair order registry.
+     * @return The shared repair order registry.
+     */
+    public static RepairOrderRegistry sharedRepairOrders() {
+        return sharedRepairOrders;
     }
 
     /**

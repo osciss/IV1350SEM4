@@ -16,7 +16,7 @@ public class RegistryCreator {
      */
     public RegistryCreator() {
         customerRegistry = new CustomerRegistry();
-        repairOrderRegistry = new RepairOrderRegistry();  
+        repairOrderRegistry = RepairOrderRegistry.sharedRepairOrders();  
     }
 
     /**

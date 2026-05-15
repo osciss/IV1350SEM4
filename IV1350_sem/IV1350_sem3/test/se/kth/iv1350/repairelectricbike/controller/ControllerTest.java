@@ -9,6 +9,7 @@ import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
 import se.kth.iv1350.repairelectricbike.integration.exception.CustomerNotFoundException;
 import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
+import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
 
 import java.util.List;
 
@@ -25,10 +26,12 @@ public class ControllerTest {
 
     @BeforeEach
     public void setUp() {
-        RegistryCreator creator = new RegistryCreator();
-        Printer printer = new Printer();
-        controller = new Controller(creator, printer);
-    }
+    RepairOrderRegistry.sharedRepairOrders().clearRepairOrders();
+
+    RegistryCreator creator = new RegistryCreator();
+    Printer printer = new Printer();
+    controller = new Controller(creator, printer);
+}
 
     @Test
     public void testFindCustomerReturnsCustomerForExistingPhone() throws CustomerNotFoundException {
