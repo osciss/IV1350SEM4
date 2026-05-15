@@ -15,7 +15,7 @@ public class RegistryCreator {
      * Creates the registry and its dependencies.
      */
     public RegistryCreator() {
-        customerRegistry = new CustomerRegistry();
+        customerRegistry = CustomerRegistry.customerRegistry();
         repairOrderRegistry = RepairOrderRegistry.sharedRepairOrders();  
     }
 

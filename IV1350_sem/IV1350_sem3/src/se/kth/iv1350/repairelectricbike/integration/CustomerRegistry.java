@@ -8,8 +8,12 @@ import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 
 /**
  * Stores customer data and handles customer lookups.
+ * Only one customer registry exists during runtime.
  */
 public class CustomerRegistry {
+
+    private static final CustomerRegistry customerRegistry =
+            new CustomerRegistry();
 
     private static final String DB_FAILURE_PHONE = "99999";
 
@@ -18,11 +22,19 @@ public class CustomerRegistry {
     /**
      * Creates a customer registry with some example customers.
      */
-    public CustomerRegistry() {
+    private CustomerRegistry() {
         customers = new ArrayList<>();
         customers.add(new Customer("Oscar", "oscar@kth.com", "01234", "Cannondale", "SN345678", "Superior Pro"));
         customers.add(new Customer("Aleena", "aleena@kth.com", "05678", "Specialized", "SN987654", "Turbo Vado"));
         customers.add(new Customer("Emilia", "emilia@kth.com", "091011", "Trek", "SN234567", "Fuel EX"));
+    }
+
+    /**
+     * Returns the shared customer registry.
+     * @return The shared customer registry.
+     */
+    public static CustomerRegistry customerRegistry() {
+        return customerRegistry;
     }
 
     /**
