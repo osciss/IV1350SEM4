@@ -151,6 +151,12 @@ public class Controller {
             repairOrderRegistry.updateRepairOrder(currentRepairOrder);
         }
     }
+    /**
+    * Calculates the final repair price after applying discounts.
+    *
+    * @param id The id of the repair order.
+    * @return The final discounted repair price.
+    */
     public double calculateRepairOrderPrice(int id){
         if(isCorrectRepairOrder(id)){
             
@@ -169,6 +175,13 @@ public class Controller {
         return 0.0;
 
     }
+
+    /**
+    * Checks if the specified id matches the current repair order.
+    *
+    * @param id The repair order id to check.
+    * @return True if the repair order exists and ids match.
+    */
     private boolean isCorrectRepairOrder(int id){
         return currentRepairOrder != null && currentRepairOrder.getId() == id;
     }

@@ -1,11 +1,9 @@
 package se.kth.iv1350.repairelectricbike.model.discount;
 
 
-/*
-*
-*This class implements the Discounter interface to provide a discount for frequent customers.
-* 
-*/
+/**
+ * Applies a discount for frequent customers.
+ */
 
 public class FrequentCustomerDiscount implements DiscountStrategy {
     private static final double DISCOUNT_PERCENTAGE = 0.10;

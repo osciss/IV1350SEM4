@@ -16,7 +16,7 @@ public class DiagnosticReport {
      * @param repairOrderId The ID of the repair order.
      */
     public DiagnosticReport(String taskResult, int repairOrderId) {
-        this.date = new Date(); // Sätter aktuellt datum vid skapandet
+        this.date = new Date(); 
         this.taskResult = taskResult;
         this.repairOrderId = repairOrderId;}
 
