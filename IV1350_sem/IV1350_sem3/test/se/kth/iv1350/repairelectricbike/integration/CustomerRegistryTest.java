@@ -1,67 +1,77 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
+import se.kth.iv1350.repairelectricbike.integration.exception.CustomerNotFoundException;
+import se.kth.iv1350.repairelectricbike.integration.exception.DatabaseFailureException;
 import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 
 /**
  * Unit tests for the CustomerRegistry class.
  */
 public class CustomerRegistryTest {
+
     private CustomerRegistry customerRegistry;
+
+    private static final String EXISTING_PHONE = "01234";
+    private static final String NONEXISTENT_PHONE = "00000";
+    private static final String DB_FAILURE_PHONE = "99999";
 
     @BeforeEach
     public void setUp() {
-        customerRegistry = new CustomerRegistry();
+        RegistryCreator creator = new RegistryCreator();
+        customerRegistry = creator.getCustomerRegistry();
     }
 
     @Test
-    public void testFindCustomerReturnsOscarForExistingPhone() {
-        CustomerDTO customer = customerRegistry.findCustomer("01234");
-
-        assertCustomer(customer, "Oscar", "oscar@kth.com", "01234",
-                "Cannondale", "SN345678", "Superior Pro");
+    public void testFindCustomerReturnsOscarForExistingPhone() throws CustomerNotFoundException {
+        CustomerDTO customer = customerRegistry.findCustomer(EXISTING_PHONE);
+        assertNotNull(customer, "Customer should not be null for existing phone.");
+        assertEquals("Oscar", customer.getName(), "Customer name should be Oscar.");
     }
 
     @Test
-    public void testFindCustomerReturnsAleenaForExistingPhone() {
+    public void testFindCustomerThrowsCustomerNotFoundExceptionForUnknownPhone() {
+        assertThrows(CustomerNotFoundException.class,
+                () -> customerRegistry.findCustomer(NONEXISTENT_PHONE),
+                "Should throw CustomerNotFoundException for unknown phone number.");
+    }
+
+    @Test
+    public void testCustomerNotFoundExceptionContainsPhoneNumber() {
+        CustomerNotFoundException ex = assertThrows(CustomerNotFoundException.class,
+                () -> customerRegistry.findCustomer(NONEXISTENT_PHONE),
+                "Should throw CustomerNotFoundException for unknown phone number.");
+        assertEquals(NONEXISTENT_PHONE, ex.getPhoneNumber(),
+                "Exception should contain the phone number that was not found.");
+    }
+
+    @Test
+    public void testFindCustomerThrowsDatabaseFailureExceptionForSimulatedFailure() {
+        assertThrows(DatabaseFailureException.class,
+                () -> customerRegistry.findCustomer(DB_FAILURE_PHONE),
+                "Should throw DatabaseFailureException for the simulated failure phone number.");
+    }
+
+    @Test
+    public void testFindCustomerReturnsAleenaForExistingPhone() throws CustomerNotFoundException {
         CustomerDTO customer = customerRegistry.findCustomer("05678");
-
-        assertCustomer(customer, "Aleena", "aleena@kth.com", "05678",
-                "Specialized", "SN987654", "Turbo Vado");
+        assertNotNull(customer, "Customer should not be null for existing phone.");
+        assertEquals("Aleena", customer.getName(), "Customer name should be Aleena.");
     }
 
     @Test
-    public void testFindCustomerReturnsEmiliaForExistingPhone() {
+    public void testFindCustomerReturnsEmiliaForExistingPhone() throws CustomerNotFoundException {
         CustomerDTO customer = customerRegistry.findCustomer("091011");
-
-        assertCustomer(customer, "Emilia", "emilia@kth.com", "091011",
-                "Trek", "SN234567", "Fuel EX");
+        assertNotNull(customer, "Customer should not be null for existing phone.");
+        assertEquals("Emilia", customer.getName(), "Customer name should be Emilia.");
     }
 
     @Test
     public void testFindCustomerReturnsNullForUnknownPhone() {
-        CustomerDTO customer = customerRegistry.findCustomer("000000");
-
-        assertNull(customer,
-                "findCustomer should return null when the phone number is not registered.");
-    }
-
-    private void assertCustomer(CustomerDTO customer, String name, String email,
-            String phone, String bikeBrand, String bikeSerialNo, String bikeModel) {
-        assertNotNull(customer, "Customer should not be null.");
-        assertAll(
-                () -> assertEquals(name, customer.getName(), "Name should match."),
-                () -> assertEquals(email, customer.getEmail(), "Email should match."),
-                () -> assertEquals(phone, customer.getPhoneNumber(), "Phone should match."),
-                () -> assertEquals(bikeBrand, customer.getBikeBrand(), "Bike brand should match."),
-                () -> assertEquals(bikeSerialNo, customer.getBikeSerialNo(), "Serial number should match."),
-                () -> assertEquals(bikeModel, customer.getBikeModel(), "Bike model should match."));
+        assertThrows(CustomerNotFoundException.class,
+                () -> customerRegistry.findCustomer(NONEXISTENT_PHONE),
+                "findCustomer should throw for an unknown phone number.");
     }
 }

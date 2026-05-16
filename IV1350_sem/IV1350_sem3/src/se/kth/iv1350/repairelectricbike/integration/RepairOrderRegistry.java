@@ -1,22 +1,40 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
+import java.util.ArrayList;
+import java.util.List;
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Stores repair orders in the system.
+ * There is only one shared registry exists during runtime.
  */
 public class RepairOrderRegistry {
+
+    private static final RepairOrderRegistry sharedRepairOrders =
+            new RepairOrderRegistry();
 
     private List<RepairOrder> repairOrders = new ArrayList<>();
 
     /**
-     * Creates a repair order registry.
+     *Creates shared repair order registry.
      */
-    public RepairOrderRegistry() {
+    private RepairOrderRegistry() {
+    }
+    
+    /**
+     * Clears the repair order registry.
+    */
+    public void removeAllRepairOrders() {
+        repairOrders.clear();
+    }
+
+    /**
+     * Returns the shared repair order registry.
+     * @return The shared repair order registry.
+     */
+    public static RepairOrderRegistry sharedRepairOrders() {
+        return sharedRepairOrders;
     }
 
     /**
@@ -73,5 +91,20 @@ public class RepairOrderRegistry {
             ));
         }
         return result;
+    }
+    /**
+     * Counts the number of repair orders for a given customer phone number.
+     *
+     * @param customerPhone The customer's phone number.
+     * @return The number of repair orders associated with the given phone number.
+     */
+    public int countCustomerOrders(String customerPhone){
+        int count = 0;
+        for(RepairOrder order : repairOrders){
+            if(order.getCustomerPhone().contains(customerPhone)){
+                count++;
+            }
+        }
+        return count;
     }
 }

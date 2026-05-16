@@ -62,4 +62,13 @@ public class RepairTask {
     public void setState(String state) {
         this.state = state;
     }
+    /**
+     * Returns a string representation of the repair task.
+     *
+     * @return A formatted string with repair task details.
+     */
+    @Override
+    public String toString() {
+        return name + " - " + description + ", cost: " + cost + ", state: " + state;
+    }
 }

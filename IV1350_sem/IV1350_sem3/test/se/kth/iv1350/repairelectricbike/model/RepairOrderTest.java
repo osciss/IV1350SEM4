@@ -13,7 +13,7 @@ public class RepairOrderTest {
 
     @BeforeEach
     void setUp() {
-        order = new RepairOrder(1, "Battery problem");
+        order = new RepairOrder(1, "Battery problem", "01234", 12345);
     }
 
     @Test
@@ -24,11 +24,16 @@ public class RepairOrderTest {
                 "getId should return the id set in the constructor.");
         assertEquals("Battery problem", order.getProblemDesc(),
                 "getProblemDesc should return the description set in the constructor.");
+        assertEquals("01234", order.getCustomerPhone(),
+                "getCustomerPhone should return the phone number set in the constructor.");
+        assertEquals(12345, order.getBikeSerialNo(),
+                "getBikeSerialNo should return the serial number set in the constructor.");
     }
 
     @Test
     void testOnAddRepairTask() {
-        order.addRepairTask("Replace chain");
+        RepairTask repairTask = new RepairTask("Replace chain", "Description: Replace chain", 0.0, "NEW");
+        order.addRepairTask(repairTask);
         assertTrue(order.toString().contains("Replace chain"),
                 "Added repair task should appear in toString output.");
     }

@@ -1,16 +1,17 @@
 package se.kth.iv1350.repairelectricbike.controller;
-import static org.junit.jupiter.api.Assertions.*;
 
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import se.kth.iv1350.repairelectricbike.controller.exception.CustomerOperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.Printer;
 import se.kth.iv1350.repairelectricbike.integration.RegistryCreator;
+import se.kth.iv1350.repairelectricbike.integration.exception.CustomerNotFoundException;
 import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
+import se.kth.iv1350.repairelectricbike.integration.RepairOrderRegistry;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the Controller class.
@@ -19,34 +20,43 @@ public class ControllerTest {
 
     private Controller controller;
 
-    // Telefonnummer som finns i CustomerRegistry
-    private static final String EXISTING_PHONE = "01234";       
-    private static final String NONEXISTENT_PHONE = "0000000000";
+    private static final String EXISTING_PHONE = "01234";
+    private static final String NONEXISTENT_PHONE = "00000";
+    private static final String DB_FAILURE_PHONE = "99999";
 
     @BeforeEach
     public void setUp() {
-        RegistryCreator registryCreator = new RegistryCreator();
-        Printer printer = new Printer();
-        controller = new Controller(registryCreator, printer);
-    }
+    RepairOrderRegistry.sharedRepairOrders().removeAllRepairOrders();
+
+    RegistryCreator creator = new RegistryCreator();
+    Printer printer = new Printer();
+    controller = new Controller(creator, printer);
+}
 
     @Test
-    public void testFindCustomerReturnsCustomerForExistingPhone() {
+    public void testFindCustomerReturnsCustomerForExistingPhone() throws CustomerNotFoundException {
         CustomerDTO result = controller.findCustomer(EXISTING_PHONE);
         assertNotNull(result,
                 "findCustomer should return a CustomerDTO for an existing phone number.");
     }
 
     @Test
-    public void testFindCustomerReturnsNullForUnknownPhone() {
-        CustomerDTO result = controller.findCustomer(NONEXISTENT_PHONE);
-        assertNull(result,
-                "findCustomer should return null for an unknown phone number.");
+    public void testFindCustomerThrowsCustomerNotFoundExceptionForUnknownPhone() {
+        assertThrows(CustomerNotFoundException.class,
+                () -> controller.findCustomer(NONEXISTENT_PHONE),
+                "findCustomer should throw CustomerNotFoundException for an unknown phone number.");
+    }
+
+    @Test
+    public void testFindCustomerThrowsCustomerOperationFailedExceptionForDatabaseFailure() {
+        assertThrows(CustomerOperationFailedException.class,
+                () -> controller.findCustomer(DB_FAILURE_PHONE),
+                "findCustomer should throw CustomerOperationFailedException when database fails.");
     }
 
     @Test
     public void testCreateRepairOrderAppearsInFindAll() {
-        controller.createRepairOrder("Brake problem.", EXISTING_PHONE, 1);
+        controller.createRepairOrder("Wheel wobbles.", EXISTING_PHONE, 1);
         List<RepairOrderDTO> orders = controller.findAllRepairOrders();
         assertEquals(1, orders.size(),
                 "After creating one repair order, findAllRepairOrders should return one.");
@@ -61,7 +71,7 @@ public class ControllerTest {
 
     @Test
     public void testAcceptRepairOrderChangesStateToAccepted() {
-        controller.createRepairOrder("Wheel wobbles.", EXISTING_PHONE, 1);
+        controller.createRepairOrder("Throttle stuck.", EXISTING_PHONE, 1);
         int orderId = controller.findAllRepairOrders().get(0).id;
         controller.acceptRepairOrder(orderId);
         assertEquals("ACCEPTED", controller.findAllRepairOrders().get(0).state,
@@ -81,7 +91,7 @@ public class ControllerTest {
     public void testAddRepairTaskDoesNotThrow() {
         controller.createRepairOrder("Motor noise.", EXISTING_PHONE, 1);
         int orderId = controller.findAllRepairOrders().get(0).id;
-        assertDoesNotThrow(() -> controller.addRepairTask(orderId, "Replace motor."),
+        assertDoesNotThrow(() -> controller.addRepairTask(orderId, "Replace motor.", 200.0),
                 "addRepairTask should not throw any exception.");
     }
 
