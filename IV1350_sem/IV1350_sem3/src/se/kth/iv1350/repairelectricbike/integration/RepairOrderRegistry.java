@@ -1,10 +1,9 @@
 package se.kth.iv1350.repairelectricbike.integration;
 
-import se.kth.iv1350.repairelectricbike.model.RepairOrder;
-import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
-
 import java.util.ArrayList;
 import java.util.List;
+import se.kth.iv1350.repairelectricbike.model.RepairOrder;
+import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
 
 /**
  * Stores repair orders in the system.
@@ -92,5 +91,20 @@ public class RepairOrderRegistry {
             ));
         }
         return result;
+    }
+    /**
+     * Counts the number of repair orders for a given customer phone number.
+     *
+     * @param customerPhone The customer's phone number.
+     * @return The number of repair orders associated with the given phone number.
+     */
+    public int countCustomerOrders(String customerPhone){
+        int count = 0;
+        for(RepairOrder order : repairOrders){
+            if(order.getCustomerPhone().contains(customerPhone)){
+                count++;
+            }
+        }
+        return count;
     }
 }

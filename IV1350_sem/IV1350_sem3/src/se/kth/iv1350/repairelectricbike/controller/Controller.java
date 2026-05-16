@@ -12,8 +12,10 @@ import se.kth.iv1350.repairelectricbike.integration.exception.DatabaseFailureExc
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
 import se.kth.iv1350.repairelectricbike.model.RepairTask;
+import se.kth.iv1350.repairelectricbike.model.discount.*;
 import se.kth.iv1350.repairelectricbike.model.dto.CustomerDTO;
 import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderDTO;
+
 
 /**
  * The application controller. Receives all calls from the view and
@@ -80,7 +82,7 @@ public class Controller {
      * @param serialNo     The serial number of the bike.
      */
     public void createRepairOrder(String problemDescr, String phoneNumber, int serialNo) {
-        currentRepairOrder = new RepairOrder(nextOrderId++, problemDescr);
+        currentRepairOrder = new RepairOrder(nextOrderId++, problemDescr, phoneNumber, serialNo);
         for (RepairOrderObserver observer : repairOrderObservers) {
             currentRepairOrder.addObserver(observer);
         }
@@ -95,6 +97,7 @@ public class Controller {
     public List<RepairOrderDTO> findAllRepairOrders() {
         return repairOrderRegistry.findAllRepairOrders();
     }
+
 
     /**
      * Accepts the repair order with the specified id, updates its state, and prints it.
@@ -139,12 +142,35 @@ public class Controller {
      *
      * @param id   The id of the repair order to update.
      * @param task A textual description of the repair task.
+     * @param cost The cost of the repair task.
      */
-    public void addRepairTask(int id, String task) {
+    public void addRepairTask(int id, String task, double cost) {
         if (currentRepairOrder != null && currentRepairOrder.getId() == id) {
-            RepairTask repairTaskToAdd = new RepairTask("Repair Task", "Description: " + task, 0.0, "NEW");
+            RepairTask repairTaskToAdd = new RepairTask("Repair Task", "Description: " + task, cost, "NEW");
             currentRepairOrder.addRepairTask(repairTaskToAdd);
             repairOrderRegistry.updateRepairOrder(currentRepairOrder);
         }
     }
+    public double calculateRepairOrderPrice(int id){
+        if(isCorrectRepairOrder(id)){
+            
+            double totalPrice = currentRepairOrder.getTotalCost();
+
+            int nrOfPrevOrders = repairOrderRegistry.countCustomerOrders(currentRepairOrder.getCustomerPhone()) - 1;
+            
+            DiscountContext discountContext = new DiscountContext(totalPrice, nrOfPrevOrders);
+
+            DiscountFactory factory = new DiscountFactory();
+            DiscountStrategy strategy = factory.selectDiscount(discountContext);
+
+            PriceCalculator calculator = new PriceCalculator(strategy);
+            return calculator.calculateDiscountedPrice(discountContext);
+        }
+        return 0.0;
+
+    }
+    private boolean isCorrectRepairOrder(int id){
+        return currentRepairOrder != null && currentRepairOrder.getId() == id;
+    }
+
 }

@@ -1,7 +1,6 @@
 package se.kth.iv1350.repairelectricbike.view;
 
 import java.util.List;
-
 import se.kth.iv1350.repairelectricbike.controller.Controller;
 import se.kth.iv1350.repairelectricbike.controller.exception.CustomerOperationFailedException;
 import se.kth.iv1350.repairelectricbike.integration.exception.CustomerNotFoundException;
@@ -37,6 +36,7 @@ public class View {
         findAllRepairOrdersStep();
         addDiagnosticResultStep();
         addRepairTaskStep();
+        calculateTotalPriceStep();
         acceptRepairOrderStep();
 
         System.out.println("\n--- Demonstrating error handling ---");
@@ -127,15 +127,25 @@ public class View {
      */
     private void addRepairTaskStep() {
         System.out.println("5. Add repair task");
-        controller.addRepairTask(1, "Replace battery");
+        controller.addRepairTask(1, "Replace battery", 100.0);
         System.out.println("   Repair task added.");
+        controller.addRepairTask(1, "Test ride bike", 250.0);
+        System.out.println("   Repair task added.");
+        controller.addRepairTask(1, "Clean bike", 50.0);
+        System.out.println("   Repair task added.");
+        System.out.println("  All repair task added.");
+    }
+    private void calculateTotalPriceStep(){
+        System.out.println("6. Calculate proposed price");
+        double totalPrice = controller.calculateRepairOrderPrice(1);
+        System.out.println("   Proposed price: " + totalPrice);
     }
 
     /**
      * Accepts a repair order.
      */
     private void acceptRepairOrderStep() {
-        System.out.println("6. Accept repair order\n");
+        System.out.println("7. Accept repair order\n");
         controller.acceptRepairOrder(1);
         System.out.println("   Repair order accepted.");
     }

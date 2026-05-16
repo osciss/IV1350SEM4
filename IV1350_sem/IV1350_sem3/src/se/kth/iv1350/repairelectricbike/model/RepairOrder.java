@@ -10,7 +10,9 @@ import java.util.List;
  */
 public class RepairOrder {
 
-    private int orderID;
+    private final int orderID;
+    private final String customerPhone;
+    private final int bikeSerialNo;
     private LocalDate date;
     private String problemDescr;
     private String state;
@@ -22,13 +24,17 @@ public class RepairOrder {
     /**
      * Creates a new repair order.
      *
-     * @param orderID      The ID of the repair order.
+     * @param orderID The ID of the repair order.
      * @param problemDescr The problem description.
+     * @param customerPhone The customer's phone number.
+     * @param bikeSerialNo The bike serial number.
      */
-    public RepairOrder(int orderID, String problemDescr) {
+    public RepairOrder(int orderID, String problemDescr, String customerPhone, int bikeSerialNo) {
         this.orderID = orderID;
         this.date = LocalDate.now();
         this.problemDescr = problemDescr;
+        this.customerPhone = customerPhone;
+        this.bikeSerialNo = bikeSerialNo;
         this.state = "NEWLY CREATED";
     }
 
@@ -83,6 +89,24 @@ public class RepairOrder {
     }
 
     /**
+     * Returns the customer's phone number.
+     *
+     * @return The customer's phone number.
+     */
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    /**
+     * Returns the bike serial number.
+     *
+     * @return The bike serial number.
+     */
+    public int getBikeSerialNo() {
+        return bikeSerialNo;
+    }
+
+    /**
      * Returns the problem description.
      *
      * @return The problem description.
@@ -108,6 +132,20 @@ public class RepairOrder {
     public LocalDate getDate() {
         return date;
     }
+    /**
+     * Calculates the total cost of all repair tasks.
+     *
+     * @return The total cost of all repair tasks.
+     */
+    public double getTotalCost() {
+        double totalCost = 0;
+
+        for (RepairTask task : repairTasks) {
+            totalCost += task.getCost();
+        }
+
+        return totalCost;
+    }
 
     /**
      * Returns a string representation of the repair order.
@@ -129,4 +167,5 @@ public class RepairOrder {
             observer.repairOrderUpdated(this);
         }
     }
+    
 }

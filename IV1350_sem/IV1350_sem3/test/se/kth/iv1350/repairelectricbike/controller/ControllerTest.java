@@ -91,7 +91,7 @@ public class ControllerTest {
     public void testAddRepairTaskDoesNotThrow() {
         controller.createRepairOrder("Motor noise.", EXISTING_PHONE, 1);
         int orderId = controller.findAllRepairOrders().get(0).id;
-        assertDoesNotThrow(() -> controller.addRepairTask(orderId, "Replace motor."),
+        assertDoesNotThrow(() -> controller.addRepairTask(orderId, "Replace motor.", 200.0),
                 "addRepairTask should not throw any exception.");
     }
 
