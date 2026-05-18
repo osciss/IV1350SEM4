@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.view;
 
 import se.kth.iv1350.repairelectricbike.model.RepairOrder;
-import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
+import se.kth.iv1350.repairelectricbike.model.AbstractRepairOrderObserver;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * An observer that logs the contents of a repair order to a file
  * whenever it is updated.
  */
-public class RepairOrderLogger implements RepairOrderObserver {
+public class RepairOrderLogger extends AbstractRepairOrderObserver {
 
     private static final String LOG_FILE = "repair-order-log.txt";
     private PrintWriter logStream;
@@ -29,18 +29,22 @@ public class RepairOrderLogger implements RepairOrderObserver {
         }
     }
 
-    /**
-     * Called whenever a repair order is updated. Logs the updated
-     * repair order to file.
-     *
-     * @param repairOrder The repair order that was updated.
-     */
     @Override
-    public void repairOrderUpdated(RepairOrder repairOrder) {
+    protected void doHandleRepairOrderUpdate(RepairOrder repairOrder) {
         if (logStream != null) {
             logStream.println("[" + LocalDateTime.now() + "] Repair order updated:");
             logStream.println(repairOrder);
             logStream.println();
         }
+    }
+
+    @Override
+    protected void handleErrors(Exception ex, RepairOrder repairOrder) {
+        if (logStream != null) {
+            logStream.println("[" + LocalDateTime.now() + "] WARNING: Could not log repair order update: " + ex.getMessage());
+        } else {
+            System.err.println("WARNING: Could not log repair order update: " + ex.getMessage());
+        }
+        ex.printStackTrace(System.err);
     }
 }
