@@ -3,6 +3,7 @@ package se.kth.iv1350.repairelectricbike.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderUpdateDTO;
 
 /**
  * Represents a repair order in the system. Observers can be registered
@@ -163,9 +164,24 @@ public class RepairOrder {
     }
 
     private void notifyObservers() {
+        RepairOrderUpdateDTO repairOrderUpdate = createRepairOrderUpdate();
         for (RepairOrderObserver observer : observers) {
-            observer.repairOrderUpdated(this);
+            observer.repairOrderUpdated(repairOrderUpdate);
         }
     }
-    
+
+    private RepairOrderUpdateDTO createRepairOrderUpdate() {
+        List<String> repairTaskDescriptions = new ArrayList<>();
+        for (RepairTask task : repairTasks) {
+            repairTaskDescriptions.add(task.toString());
+        }
+
+        return new RepairOrderUpdateDTO(
+                orderID,
+                date,
+                problemDescr,
+                state,
+                repairTaskDescriptions,
+                diagnosticResults);
+    }
 }

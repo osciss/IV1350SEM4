@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.view;
 
-import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
+import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderUpdateDTO;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,13 +33,13 @@ public class RepairOrderLogger implements RepairOrderObserver {
      * Called whenever a repair order is updated. Logs the updated
      * repair order to file.
      *
-     * @param repairOrder The repair order that was updated.
+     * @param repairOrderUpdate Immutable data for the updated repair order.
      */
     @Override
-    public void repairOrderUpdated(RepairOrder repairOrder) {
+    public void repairOrderUpdated(RepairOrderUpdateDTO repairOrderUpdate) {
         if (logStream != null) {
             logStream.println("[" + LocalDateTime.now() + "] Repair order updated:");
-            logStream.println(repairOrder);
+            logStream.println(repairOrderUpdate);
             logStream.println();
         }
     }

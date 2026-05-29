@@ -16,6 +16,7 @@ This project implements the **Repair Electric Bike** scenario in Java, based on 
 **Seminar 3** implemented the basic flow of the scenario.
 
 **Seminar 4** added exception handling for error conditions and the Observer design pattern to notify technicians and receptionists about updates to repair orders.
+After teacher feedback on the MVC design, the observer solution was corrected. The previous observer design passed the model object `RepairOrder` directly to observers in `view`, which created an MVC dependency from view to model. The corrected design passes an immutable `RepairOrderUpdateDTO` from `model.dto` instead, preserving MVC separation and protecting the model's encapsulation.
 
 ### Packages
 
@@ -26,7 +27,7 @@ This project implements the **Repair Electric Bike** scenario in Java, based on 
 | `controller` | Mediates between the view and lower layers |
 | `controller.exception` | Controller-level exceptions |
 | `model` | Contains domain entities such as `RepairOrder` and `DiagnosticReport` |
-| `model.dto` | Data transfer objects: `CustomerDTO` and `RepairOrderDTO` |
+| `model.dto` | Data transfer objects: `CustomerDTO`, `RepairOrderDTO`, and `RepairOrderUpdateDTO` |
 | `integration` | Handles data storage via `CustomerRegistry`, `RepairOrderRegistry`, `RegistryCreator`, and `Printer` |
 | `integration.exception` | Integration-level exceptions |
 
@@ -118,7 +119,7 @@ IV1350_sem3/
 2. Create repair order
    Repair order created.
 3. Find all repair orders
-   ID: 1, Date: 2026-05-14, Problem: Battery dead, State: NEWLY CREATED
+   ID: 1, Date: 2026-05-17, Problem: Battery dead, State: NEWLY CREATED
 4. Add diagnostic result
  Repair Order Updated 
 Repair Order ID: 1
@@ -156,11 +157,11 @@ Finding customer causing database failure:
 ## Test Results
 
 ```
-[        26 tests found           ]
+[        30 tests found           ]
 [         0 tests skipped         ]
-[        26 tests started         ]
+[        30 tests started         ]
 [         0 tests aborted         ]
-[        26 tests successful      ]
+[        30 tests successful      ]
 [         0 tests failed          ]
 ```
 
@@ -170,3 +171,15 @@ The program generates two log files:
 
 - **`error-log.txt`** — logs database failures with timestamp and stack trace, for developer debugging
 - **`repair-order-log.txt`** — logs every repair order update with timestamp, via the Observer pattern
+
+## MVC Correction After Teacher Feedback
+
+After teacher feedback, the observer design was revised because the previous solution let `RepairOrderView` and `RepairOrderLogger` receive the domain object `RepairOrder` directly through the Observer pattern. That made classes in the `view` package depend on a model entity, which violates MVC.
+
+The corrected design keeps observers push-based, but `RepairOrder` now creates and sends an immutable `RepairOrderUpdateDTO` containing only the data needed for display and logging. This preserves MVC separation, avoids exposing the internal model object, and still lets the observers update without calling the controller or fetching extra data.
+
+## Repository
+
+- **GitHub:** https://github.com/osciss/IV1350SEM4.git
+
+- **Note about exceptions:** The integration exception classes include Javadoc and provide informative messages and optional causes via the standard `Exception` constructors (message/cause).

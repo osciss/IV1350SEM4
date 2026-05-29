@@ -1,7 +1,7 @@
 package se.kth.iv1350.repairelectricbike.view;
 
-import se.kth.iv1350.repairelectricbike.model.RepairOrder;
 import se.kth.iv1350.repairelectricbike.model.RepairOrderObserver;
+import se.kth.iv1350.repairelectricbike.model.dto.RepairOrderUpdateDTO;
 
 /**
  * An observer that prints the contents of a repair order to
@@ -21,12 +21,12 @@ public class RepairOrderView implements RepairOrderObserver {
      * Called whenever a repair order is updated. Prints the updated
      * repair order to {@link System#out}.
      *
-     * @param repairOrder The repair order that was updated.
+     * @param repairOrderUpdate Immutable data for the updated repair order.
      */
     @Override
-    public void repairOrderUpdated(RepairOrder repairOrder) {
+    public void repairOrderUpdated(RepairOrderUpdateDTO repairOrderUpdate) {
         System.out.println("=== Repair Order Updated ===");
-        System.out.println(repairOrder);
+        System.out.println(repairOrderUpdate);
         System.out.println("============================");
     }
 }
